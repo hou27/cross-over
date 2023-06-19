@@ -41,6 +41,10 @@ export class PostsService {
   }
 
   async load(page: number, limit: number): Promise<Post[]> {
+    // page가 1보다 작으면 1로 설정
+    if (page < 1) {
+      page = 1;
+    }
     const posts = await this.postsRepository.find({
       skip: (page - 1) * limit,
       take: limit,
