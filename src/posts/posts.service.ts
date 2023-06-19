@@ -1,4 +1,5 @@
 import {
+  ForbiddenException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -48,7 +49,7 @@ export class PostsService {
     const posts = await this.postsRepository.find({
       skip: (page - 1) * limit,
       take: limit,
-      order: { id: 'DESC' },
+      order: { createdAt: 'DESC' },
     });
 
     return posts;
@@ -65,12 +66,18 @@ export class PostsService {
     return post;
   }
 
-  async delete(postId: number): Promise<void> {
+  async delete(userId: string, postId: number): Promise<void> {
     const post = await this.postsRepository.findOne({
       where: { id: postId },
+      relations: {
+        writer: true,
+      },
     });
     if (!post) {
       throw new NotFoundException('Post Not Exist');
+    }
+    if (post.writer.userId !== userId) {
+      throw new ForbiddenException('Not Your Post');
     }
 
     await this.postsRepository.delete(postId);
