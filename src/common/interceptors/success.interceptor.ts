@@ -19,12 +19,13 @@ export class SuccessInterceptor implements NestInterceptor {
         if (typeof returnValue == 'string') {
           return {
             statusCode,
+            data: null,
             message: returnValue,
           };
         } else {
           return {
             statusCode,
-            ...returnValue,
+            data: returnValue,
           };
         }
       }),
