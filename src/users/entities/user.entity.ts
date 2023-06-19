@@ -7,7 +7,10 @@ import { Post } from 'src/posts/entities/post.entity';
 export class User extends CoreEntity {
   @Column({ unique: true })
   @IsString()
-  name!: string;
+  @Matches(/^[A-Za-z\d]{5, 10}$/, {
+    message: 'userId must be at least 5 characters long, contain 1 number',
+  })
+  userId!: string;
 
   @Column({ unique: true })
   @IsEmail()
@@ -15,9 +18,13 @@ export class User extends CoreEntity {
 
   @Column({ select: false })
   @IsString()
-  @Matches(/^(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/, {
-    message: 'Password must be at least 8 characters long, contain 1 number',
-  })
+  @Matches(
+    /^(?=.*[a-zA-Z])(?=.*[~!@#$%^&*_\-+=`|\(){}[\]:;"'<>,.?/])(?=.*[0-9]).{8,15}$/,
+    {
+      message:
+        'Password must be at least 8 characters long, contain 1 number, 1 special character',
+    },
+  )
   password!: string;
 
   @Column()
