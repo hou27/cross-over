@@ -1,6 +1,6 @@
 # Cross over session
 
-# :writing_hand: API 구조
+# :writing_hand: [API 구조](wiki/API_DOCS.md)
 
 ### Auth API
 
