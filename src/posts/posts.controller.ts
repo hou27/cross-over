@@ -9,10 +9,10 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { PostsService } from './posts.service';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { User } from 'src/users/entities/user.entity';
+import { PostsService } from './posts.service';
 import { CreatePostReqDto } from './dto/createPost.dto';
 
 @Controller('posts')
