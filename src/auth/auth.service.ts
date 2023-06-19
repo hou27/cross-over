@@ -26,6 +26,22 @@ export class AuthService {
     password,
   }: CreateAccountReqDto): Promise<void> {
     try {
+      // email 중복 확인
+      const emailExists = await this.usersRepository.findOne({
+        where: { email },
+      });
+      if (emailExists) {
+        throw new BadRequestException('Email Already Exists');
+      }
+
+      // userId 중복 확인
+      const userIdExists = await this.usersRepository.findOne({
+        where: { userId },
+      });
+      if (userIdExists) {
+        throw new BadRequestException('UserId Already Exists');
+      }
+
       await this.usersRepository.save(
         this.usersRepository.create({
           userId,
