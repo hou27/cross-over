@@ -7,7 +7,7 @@ import { Post } from 'src/posts/entities/post.entity';
 export class User extends CoreEntity {
   @Column({ unique: true })
   @IsString()
-  @Matches(/^[A-Za-z\d]{5, 10}$/, {
+  @Matches(/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{5,9}$/, {
     message: 'userId must be at least 5 characters long, contain 1 number',
   })
   userId!: string;
