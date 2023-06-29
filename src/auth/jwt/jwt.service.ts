@@ -14,7 +14,7 @@ export class customJwtService {
     return this.jwtService.verify(token, { secret: options?.secret });
   }
 
-  createPayload(email: string, sub: number): Payload {
+  createPayload(email: string, sub: string): Payload {
     return { email, sub };
   }
 }

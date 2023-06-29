@@ -55,7 +55,7 @@ export class PostsService {
     return posts;
   }
 
-  async detail(postId: number): Promise<Post> {
+  async detail(postId: string): Promise<Post> {
     const post = await this.postsRepository.findOne({
       where: { id: postId },
     });
@@ -66,7 +66,7 @@ export class PostsService {
     return post;
   }
 
-  async delete(userId: string, postId: number): Promise<void> {
+  async delete(userId: string, postId: string): Promise<void> {
     const post = await this.postsRepository.findOne({
       where: { id: postId },
       relations: {
