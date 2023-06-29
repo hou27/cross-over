@@ -1,6 +1,6 @@
 export class Payload {
   email!: string; // user email
-  sub!: number; // userId
+  sub!: string; // userId
 }
 
 export const TWOHOUR = '2h';
