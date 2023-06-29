@@ -26,7 +26,7 @@ import { validationSchema } from './config/validationSchema';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      synchronize: false,
 
       migrationsRun: false,
       migrations: [__dirname + '/**/migrations/*.js'],

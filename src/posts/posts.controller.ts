@@ -19,12 +19,14 @@ import { CreatePostReqDto } from './dto/createPost.dto';
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async load(
+    @AuthUser() { userId }: User,
     @Query('page', ParseIntPipe) page: number,
     @Query('limit', ParseIntPipe) limit: number,
   ) {
-    return this.postsService.load(page, limit);
+    return this.postsService.load(userId, page, limit);
   }
 
   @Get(':id')

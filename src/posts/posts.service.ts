@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Post } from './entities/post.entity';
 import { CreatePostReqDto } from './dto/createPost.dto';
+import { LoadPostsRes } from './dto/loadPosts.dto';
 
 @Injectable()
 export class PostsService {
@@ -41,7 +42,11 @@ export class PostsService {
     );
   }
 
-  async load(page: number, limit: number): Promise<Post[]> {
+  async load(
+    userId: string,
+    page: number,
+    limit: number,
+  ): Promise<LoadPostsRes[]> {
     // page가 1보다 작으면 1로 설정
     if (page < 1) {
       page = 1;
@@ -50,9 +55,21 @@ export class PostsService {
       skip: (page - 1) * limit,
       take: limit,
       order: { createdAt: 'DESC' },
+      relations: {
+        writer: true,
+      },
     });
 
-    return posts;
+    const postsRes = posts.map((post) => ({
+      id: post.id,
+      title: post.title,
+      content: post.content,
+      createdAt: post.createdAt,
+      updatedAt: post.updatedAt,
+      isMine: post.writer.userId === userId,
+    }));
+
+    return postsRes;
   }
 
   async detail(postId: string): Promise<Post> {
